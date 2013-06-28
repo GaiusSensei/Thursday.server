@@ -1,2 +1,5 @@
 .c9revisions
 node_modules
+ServiceDefinition.csdef
+Web.cloud.config
+public
