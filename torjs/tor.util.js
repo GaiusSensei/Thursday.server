@@ -35,7 +35,7 @@ var send = function sendF(m, p, d, authToken, callback) {
                 try {
                     r.data = JSON.parse(temp);
                 } catch(e) {
-                    r.error = temp;
+                    r.data = { "d" : temp };
                 }
             }
             callback(r);

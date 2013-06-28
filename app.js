@@ -3,11 +3,7 @@ var application_root = __dirname,
     express = require("express"),
     path = require("path"),
     tor = require("./torjs/tor.js");
-    //mongoose = require('mongoose');
 var app = module.exports = express();
-
-// Database
-// mongoose.connect('mongodb://' + process.env.IP +'/thursdayDB');
 
 // CORS
 var allowedDomains = ["*"];
@@ -38,12 +34,108 @@ app.all('/api/test', function (req, res, next) {
 });
 app.post('/api/init', function(req, res, next) {
     if ((!req.body.email) || (!req.body.passwd)) {
-        res.send(400, "Thursday.error: Email and Password required.");
+        res.send(400);
     } else { 
         tor.init(
             req.body.email,
             req.body.passwd,
             function initF(response){
+                if (response.error) {
+                    res.send(401);
+                } else {
+                    res.send(JSON.stringify(response.data)); 
+                }
+            }
+        );
+    }
+});
+app.post('/api/generic/token', function(req, res, next) {
+    if (!req.body.authToken) {
+        res.send(400);
+    } else { 
+        tor.getToken(
+            req.body.authToken,
+            function tokenF(response){
+                if (response.error) {
+                    res.send(401);
+                } else {
+                    res.send(JSON.stringify(response.data)); 
+                }
+            }
+        );
+    }
+});
+app.post('/api/generic/userinfo', function(req, res, next) {
+    if (!req.body.authToken) {
+        res.send(400);
+    } else { 
+        tor.getUserInfo(
+            req.body.authToken,
+            function userinfoF(response){
+                if (response.error) {
+                    res.send(401);
+                } else {
+                    res.send(JSON.stringify(response.data)); 
+                }
+            }
+        );
+    }
+});
+app.post('/api/generic/preference/list', function(req, res, next) {
+    if (!req.body.authToken) {
+        res.send(400);
+    } else { 
+        tor.getPreferenceList(
+            req.body.authToken,
+            function preferencelistF(response){
+                if (response.error) {
+                    res.send(401);
+                } else {
+                    res.send(JSON.stringify(response.data)); 
+                }
+            }
+        );
+    }
+});
+app.post('/api/generic/friend/list', function(req, res, next) {
+    if (!req.body.authToken) {
+        res.send(400);
+    } else { 
+        tor.getFriendList(
+            req.body.authToken,
+            function friendlistF(response){
+                if (response.error) {
+                    res.send(401);
+                } else {
+                    res.send(JSON.stringify(response.data)); 
+                }
+            }
+        );
+    }
+});
+app.post('/api/folders/list', function(req, res, next) {
+    if (!req.body.authToken) {
+        res.send(400);
+    } else { 
+        tor.getFolderList(
+            req.body.authToken,
+            function folderlistF(response){
+                if (response.error) {
+                    res.send(401);
+                } else {
+                    res.send(JSON.stringify(response.data)); 
+                }
+            }
+        );
+    }
+});
+app.post('/api/folders/preference/list', function(req, res, next) {
+    if (!req.body.authToken) {
+        res.send(400);
+    } else { 
+        tor.getFolderPreferences(
+            req.body.authToken,
+            function folderpreferencelistF(response){
                 if (response.error) {
                     res.send(401);
                 } else {
